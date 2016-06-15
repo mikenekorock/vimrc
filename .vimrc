@@ -51,86 +51,84 @@ source /usr/share/vim/vim73/macros/matchit.vim
 nnoremap n nzz
 nnoremap N Nzz
 
-" neobundle
-set nocompatible
 filetype off
 
 " git clone https://github.com/Shougo/neobundle.vim ~/.vim/.bundle/neobundle.vim
-if has('vim_starting')
-  " Required:
-  set runtimepath+=~/.vim/.bundle/neobundle.vim/
+if &compatible
+  set nocompatible
 endif
 
+set runtimepath^=~/.vim/dein/repos/github.com/Shougo/dein.vim
 " Required:
-call neobundle#begin(expand('~/.vim/.bundle/'))
+call dein#begin(expand('~/.vim/dein/'))
 
 " :NeoBundleInstall
 " Let NeoBundle manage NeoBundle
 " Required:
-NeoBundleFetch 'Shougo/neobundle.vim'
+call dein#add('Shougo/dein.vim')
 
 " My Bundles here:
 
 " unite grep に必要
-NeoBundle 'Shougo/vimproc.vim', {
+call dein#add ('Shougo/vimproc.vim', {
       \ 'build' : {
       \     'windows' : 'tools\\update-dll-mingw',
       \     'cygwin' : 'make -f make_cygwin.mak',
       \     'mac' : 'make -f make_mac.mak',
       \     'unix' : 'make -f make_unix.mak',
       \    },
-      \ }
+      \ })
 
-NeoBundle 'Shougo/unite.vim'
-NeoBundle 'Shougo/neomru.vim'
-NeoBundle 'scrooloose/nerdtree'
-NeoBundle 'rails.vim'
-NeoBundle 'vim-scripts/dbext.vim'
-NeoBundle 'thinca/vim-ref'
-NeoBundle 'vim-ruby/vim-ruby'
-NeoBundle 'sakuraiyuta/commentout.vim'
-NeoBundle 'rking/ag.vim'
-NeoBundle 'cohama/agit.vim'
-NeoBundle 'tpope/vim-rails'
-NeoBundle 'tpope/vim-endwise'
-NeoBundle 'tpope/vim-fugitive'
+call dein#add ('Shougo/unite.vim')
+call dein#add ('Shougo/neomru.vim')
+call dein#add ('scrooloose/nerdtree')
+call dein#add ('rails.vim')
+call dein#add ('vim-scripts/dbext.vim')
+call dein#add ('thinca/vim-ref')
+call dein#add ('vim-ruby/vim-ruby')
+call dein#add ('sakuraiyuta/commentout.vim')
+call dein#add ('rking/ag.vim')
+call dein#add ('cohama/agit.vim')
+call dein#add ('tpope/vim-rails')
+call dein#add ('tpope/vim-endwise')
+call dein#add ('tpope/vim-fugitive')
 
 
 
 " visibility {{{
 " 保存状態未保存状態で下のラインの色が違うようになる。どれがどういう役割なのか不明
-NeoBundle 'nathanaelkane/vim-indent-guides'
-"NeoBundle 'LeafCage/foldCC'
-NeoBundle 'bling/vim-airline' "これが保存状態未保存状態でステータスバーを色分けするプラグインみたいだ
-NeoBundle 'osyo-manga/vim-over' "一括置き換え 使い方   :%s/置き換える文字/置き換え後の文字   みたいな
+call dein#add ('nathanaelkane/vim-indent-guides')
+"call dein#add 'LeafCage/foldCC'
+call dein#add ('bling/vim-airline') "これが保存状態未保存状態でステータスバーを色分けするプラグインみたいだ
+call dein#add ('osyo-manga/vim-over') "一括置き換え 使い方   :%s/置き換える文字/置き換え後の文字   みたいな
 " }}}
 
 
 "更新箇所がリアルタイムで分かる
 " git {{{
-NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'airblade/vim-gitgutter'
+call dein#add ('tpope/vim-fugitive')
+call dein#add ('airblade/vim-gitgutter')
 " }}}
 
 
 
 "色を変える。とりあえずいらないのでそのまま行こう
 " colorschemes plugin {{{
-NeoBundle 'altercation/vim-colors-solarized'
-NeoBundle 'baskerville/bubblegum'
-NeoBundle 'nanotech/jellybeans.vim'
-NeoBundle 'w0ng/vim-hybrid'
-NeoBundle 'vim-scripts/twilight'
-NeoBundle 'jonathanfilip/vim-lucius'
-NeoBundle 'jpo/vim-railscasts-theme'
-NeoBundle '29decibel/codeschool-vim-theme'
+call dein#add ('altercatiVon/vim-colors-solarized')
+call dein#add ('baskerville/bubblegum')
+call dein#add ('nanotech/jellybeans.vim')
+call dein#add ('w0ng/vim-hybrid')
+call dein#add ('vim-scripts/twilight')
+call dein#add ('jonathanfilip/vim-lucius')
+call dein#add ('jpo/vim-railscasts-theme')
+call dein#add ('29decibel/codeschool-vim-theme')
 " }}}
 
 
 
 
 " other programinng {{{
-NeoBundle 'scrooloose/syntastic'
+call dein#add ('scrooloose/syntastic')
 " }}}
 
 let g:NERDTreeDirArrows = 1
@@ -140,20 +138,28 @@ let g:NERDTreeDirArrowCollapsible = '▾'
 let NERDTreeShowHidden = 1
 " デフォルトでツリーを表示させる
 "autocmd VimEnter * execute 'NERDTree'
-NeoBundle 'The-NERD-tree'
+"↓古いバージョンのnerdtree??まあ不要だと思う
+"NeoBundle 'The-NERD-tree'
 " NERDTree {{{
 
 
 
-call neobundle#end()
+call dein#end()
 "----ネオバンドルのプラグインここまで----
-
-
+set background=dark
 " 上のカラーリングを適用させる。この条件はよくわからん
 if stridx($TERM, 'xterm-256color') >= 0
-  colorscheme hybrid
+  "colorscheme desert
+  "colorscheme railscasts
+  "colorscheme codeschool
+  "colorscheme lucius
+  "colorscheme solarized
+  "colorscheme bubblegum
+  colorscheme jellybeans
+  "colorscheme hybrid
+  "colorscheme twilight
 else
-  colorscheme desert
+  colorscheme hybrid
 endif
 
 
