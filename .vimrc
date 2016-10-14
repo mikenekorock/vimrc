@@ -23,7 +23,7 @@ set showtabline=2
 " for ○★etc
 set ambiwidth=single
 " カーソルを行頭、行末で止まらないようにする
-set whichwrap=b,s,h,l,<,>,[,]
+"set whichwrap=b,s,h,l,<,>,[,]
 "ファイル変更中でも他のファイルを開けるようにする
 set hidden
 "ファイル内容が変更されると自動読み込みする
@@ -40,6 +40,9 @@ set backspace=start,eol,indent
 set laststatus=2
 " ステータス行に表示させる情報の指定(どこからかコピペしたので細かい意味はわかっていない)
 set statusline=%<%f\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%=%l,%c%V%8P
+
+
+
 "swpファイルを作成しない
 set noswapfile
 
@@ -51,15 +54,16 @@ source /usr/share/vim/vim73/macros/matchit.vim
 nnoremap n nzz
 nnoremap N Nzz
 
+" neobundle
+"set nocompatible
 filetype off
 
 " git clone https://github.com/Shougo/neobundle.vim ~/.vim/.bundle/neobundle.vim
 if &compatible
   set nocompatible
 endif
-
 set runtimepath^=~/.vim/dein/repos/github.com/Shougo/dein.vim
-" Required:
+" ↓のディレクトリにプラグインのデータが入る
 call dein#begin(expand('~/.vim/dein/'))
 
 " :NeoBundleInstall
@@ -92,7 +96,8 @@ call dein#add ('cohama/agit.vim')
 call dein#add ('tpope/vim-rails')
 call dein#add ('tpope/vim-endwise')
 call dein#add ('tpope/vim-fugitive')
-
+call dein#add ('kchmck/vim-coffee-script')
+call dein#add ('osyo-manga/vim-anzu')
 
 
 " visibility {{{
@@ -143,7 +148,7 @@ let NERDTreeShowHidden = 1
 " NERDTree {{{
 
 
-
+"新しいプラグインを入れた場合は→::call dein#install()
 call dein#end()
 "----ネオバンドルのプラグインここまで----
 set background=dark
@@ -277,3 +282,16 @@ endif
 "MyAutocmd Syntax * hi Pmenu ctermfg=15 ctermbg=18 guibg=#666666
 "MyAutocmd Syntax * hi PmenuSel ctermbg=39 ctermfg=0 guibg=#8cd0d3 guifg=#666666
 "MyAutocmd Syntax * hi PmenuSbar guibg=#333333
+
+" HTML(とXML?)に閉じタグを自動で入れる
+augroup MyXML
+  autocmd!
+  autocmd Filetype xml inoremap <buffer> </ </<C-x><C-o>
+  autocmd Filetype html inoremap <buffer> </ </<C-x><C-o>
+augroup END
+
+nmap n <Plug>(anzu-n-with-echo)
+nmap N <Plug>(anzu-n-with-echo)
+nmap * <Plug>(anzu-star-with-echo)
+nmap # <Plug>(anzu-sharp-with-echo)
+augroup END
