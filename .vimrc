@@ -5,8 +5,10 @@ set number
 " disp tab and trail
 set encoding=utf-8
 set fileencodings=utf-8,ucs-bom,iso-2022-jp-3,iso-2022-jp,eucjp-ms,euc-jisx0213,euc-jp,sjis,cp932
+"タブ、空白、改行の可視化
 set list
-set listchars=tab:»-,trail:-
+set listchars=tab:».,trail:_,eol:↲,extends:>,precedes:<,nbsp:%
+
 set tags=~/.tags
 " disp zenkakuspace
 highlight ZenkakuSpace cterm=bold,reverse ctermfg=red guibg=red
@@ -41,15 +43,13 @@ set laststatus=2
 " ステータス行に表示させる情報の指定(どこからかコピペしたので細かい意味はわかっていない)
 set statusline=%<%f\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%=%l,%c%V%8P
 
-
-
 "swpファイルを作成しない
 set noswapfile
 
 " ESCキー2回で検索結果ハイライトを消す
 nmap <Esc><Esc> :nohlsearch<CR><Esc>
 " % move do <-> end
-source /usr/share/vim/vim73/macros/matchit.vim
+source /usr/share/vim/vim74/macros/matchit.vim
 " n, N キーで「次の（前の）検索候補」を画面の中心に表示する
 nnoremap n nzz
 nnoremap N Nzz
@@ -58,7 +58,9 @@ nnoremap N Nzz
 "set nocompatible
 filetype off
 
-" git clone https://github.com/Shougo/neobundle.vim ~/.vim/.bundle/neobundle.vim
+" ↓プラグインをインストールする場合はこんな感じ
+" mkdir -p ~/.vim/dein/repos/github.com/Shougo/dein.vim
+" git clone https://github.com/Shougo/dein.vim.git ~/.vim/dein/repos/github.com/Shougo/dein.vim
 if &compatible
   set nocompatible
 endif
@@ -86,7 +88,6 @@ call dein#add ('Shougo/vimproc.vim', {
 call dein#add ('Shougo/unite.vim')
 call dein#add ('Shougo/neomru.vim')
 call dein#add ('scrooloose/nerdtree')
-call dein#add ('rails.vim')
 call dein#add ('vim-scripts/dbext.vim')
 call dein#add ('thinca/vim-ref')
 call dein#add ('vim-ruby/vim-ruby')
@@ -117,16 +118,19 @@ call dein#add ('airblade/vim-gitgutter')
 
 
 
-"色を変える。とりあえずいらないのでそのまま行こう
+"カラースキーム。:colorscheme なんちゃら〜で変えれる。
 " colorschemes plugin {{{
-call dein#add ('altercatiVon/vim-colors-solarized')
-call dein#add ('baskerville/bubblegum')
+"call dein#add ('altercatiVon/vim-colors-solarized')
+"call dein#add ('baskerville/bubblegum')
 call dein#add ('nanotech/jellybeans.vim')
-call dein#add ('w0ng/vim-hybrid')
-call dein#add ('vim-scripts/twilight')
-call dein#add ('jonathanfilip/vim-lucius')
-call dein#add ('jpo/vim-railscasts-theme')
-call dein#add ('29decibel/codeschool-vim-theme')
+"call dein#add ('w0ng/vim-hybrid')
+"call dein#add ('vim-scripts/twilight')
+"call dein#add ('jonathanfilip/vim-lucius')
+"call dein#add ('jpo/vim-railscasts-theme')
+"call dein#add ('29decibel/codeschool-vim-theme')
+"call dein#add ('lifepillar/vim-solarized8')
+"call dein#add ('altercation/vim-colors-solarized')
+call dein#add ('KKPMW/moonshine-vim')
 " }}}
 
 
@@ -143,24 +147,25 @@ let g:NERDTreeDirArrowCollapsible = '▾'
 let NERDTreeShowHidden = 1
 " デフォルトでツリーを表示させる
 "autocmd VimEnter * execute 'NERDTree'
-"↓古いバージョンのnerdtree??まあ不要だと思う
-"NeoBundle 'The-NERD-tree'
-" NERDTree {{{
 
-
-"新しいプラグインを入れた場合は→::call dein#install()
+"新しいプラグインを入れた場合は→:call dein#install()
 call dein#end()
 "----ネオバンドルのプラグインここまで----
+syntax enable
 set background=dark
+set t_Co=256
 " 上のカラーリングを適用させる。この条件はよくわからん
 if stridx($TERM, 'xterm-256color') >= 0
   "colorscheme desert
   "colorscheme railscasts
   "colorscheme codeschool
   "colorscheme lucius
-  "colorscheme solarized
+  "colorscheme solarized8_dark
   "colorscheme bubblegum
-  colorscheme jellybeans
+  "colorscheme jellybeans
+  "colorscheme solarized
+  colorscheme moonshine
+  "let g:solarized_termcolors=256
   "colorscheme hybrid
   "colorscheme twilight
 else
@@ -245,9 +250,6 @@ nnoremap <C-h> <ESC><C-w>h
 noremap <C-o>  <C-w>>
 noremap <C-i>  <C-w><
 
-"タブ、空白、改行の可視化
-set list
-set listchars=tab:>.,trail:_,eol:↲,extends:>,precedes:<,nbsp:%
 
 "全角スペースをハイライト表示
 function! ZenkakuSpace()
@@ -273,8 +275,8 @@ if OSTYPE == "Linux\n"
   noremap y y:wv<CR>
   noremap p :rv!<CR>p
 
-  set viminfo='50,\"3000,:0,n~/.viminfo
 endif
+set viminfo='50,\"3000,:0,n~/.viminfo
 " 全角スペースをハイライト
 "MyAutocmd ColorScheme * highlight ZenkakuSpace ctermbg=239 guibg=#405060
 "MyAutocmd VimEnter,WinEnter * call matchadd('ZenkakuSpace', '　')
@@ -291,7 +293,7 @@ augroup MyXML
 augroup END
 
 nmap n <Plug>(anzu-n-with-echo)
-nmap N <Plug>(anzu-n-with-echo)
+nmap N <Plug>(anzu-N-with-echo)
 nmap * <Plug>(anzu-star-with-echo)
 nmap # <Plug>(anzu-sharp-with-echo)
 augroup END
