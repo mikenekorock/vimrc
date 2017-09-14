@@ -59,8 +59,8 @@ nnoremap N Nzz
 filetype off
 
 " ↓プラグインをインストールする場合はこんな感じ
-" mkdir -p ~/.vim/dein/repos/github.com/Shougo/dein.vim
-" git clone https://github.com/Shougo/dein.vim.git ~/.vim/dein/repos/github.com/Shougo/dein.vim
+" $ mkdir -p ~/.vim/dein/repos/github.com/Shougo/dein.vim
+" $ git clone https://github.com/Shougo/dein.vim.git ~/.vim/dein/repos/github.com/Shougo/dein.vim
 if &compatible
   set nocompatible
 endif
@@ -88,6 +88,7 @@ call dein#add ('Shougo/vimproc.vim', {
 call dein#add ('Shougo/unite.vim')
 call dein#add ('Shougo/neomru.vim')
 call dein#add ('scrooloose/nerdtree')
+call dein#add ('Xuyuanp/nerdtree-git-plugin')
 call dein#add ('vim-scripts/dbext.vim')
 call dein#add ('thinca/vim-ref')
 call dein#add ('vim-ruby/vim-ruby')
@@ -96,7 +97,6 @@ call dein#add ('rking/ag.vim')
 call dein#add ('cohama/agit.vim')
 call dein#add ('tpope/vim-rails')
 call dein#add ('tpope/vim-endwise')
-call dein#add ('tpope/vim-fugitive')
 call dein#add ('kchmck/vim-coffee-script')
 call dein#add ('osyo-manga/vim-anzu')
 
@@ -118,7 +118,8 @@ call dein#add ('airblade/vim-gitgutter')
 
 
 
-"カラースキーム。:colorscheme なんちゃら〜で変えれる。
+" カラースキーム。:colorschemeなんちゃら〜で変えれる。
+" 使いたい場合はコメントアウト外してインストールしてね。
 " colorschemes plugin {{{
 "call dein#add ('altercatiVon/vim-colors-solarized')
 "call dein#add ('baskerville/bubblegum')
@@ -169,7 +170,7 @@ if stridx($TERM, 'xterm-256color') >= 0
   "colorscheme hybrid
   "colorscheme twilight
 else
-  colorscheme hybrid
+  "colorscheme hybrid
 endif
 
 
@@ -201,7 +202,7 @@ au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
 " 開いてすぐに文字列を書いて絞り込める
 let g:unite_enable_start_insert = 1
 
-" NERDTree
+" NERDTreeのキーバインド。Ctrl + eで閉じたり開いたりできるよ
 nmap <silent> <C-e>      :NERDTreeToggle<CR>
 vmap <silent> <C-e> <Esc>:NERDTreeToggle<CR>
 omap <silent> <C-e>      :NERDTreeToggle<CR>
@@ -292,6 +293,7 @@ augroup MyXML
   autocmd Filetype html inoremap <buffer> </ </<C-x><C-o>
 augroup END
 
+" vim-anzuのキーバインド
 nmap n <Plug>(anzu-n-with-echo)
 nmap N <Plug>(anzu-N-with-echo)
 nmap * <Plug>(anzu-star-with-echo)
