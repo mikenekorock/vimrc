@@ -101,6 +101,10 @@ call dein#add ('kchmck/vim-coffee-script')
 call dein#add ('osyo-manga/vim-anzu')
 
 
+" カーソルの場所によって自動でシンタックスが変わる。なくてもいいかな・・
+"call dein#add ('Shougo/context_filetype.vim')
+"call dein#add ('osyo-manga/vim-precious')
+
 " visibility {{{
 " 保存状態未保存状態で下のラインの色が違うようになる。どれがどういう役割なのか不明
 call dein#add ('nathanaelkane/vim-indent-guides')
@@ -152,6 +156,9 @@ let NERDTreeShowHidden = 1
 "新しいプラグインを入れた場合は→:call dein#install()
 call dein#end()
 "----ネオバンドルのプラグインここまで----
+
+autocmd BufNewFile,BufRead *.vue set filetype=html
+
 syntax enable
 set background=dark
 set t_Co=256
