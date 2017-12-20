@@ -1,0 +1,14 @@
+termcapinfo xterm* ti@:te@
+defscrollback 10000
+
+# ハングアップしたときにscreenは自動的にデタッチ
+autodetach on
+
+# 画面の一番下の行を反転させてハードステータス表示
+hardstatus alwayslastline "%{= gk}[%m/%d %02c:%s] %{gW} %-w%{= wk}%n %t%{-}%+w %=%{gk}$USER@$HOSTNAME[$LANG] (%l) "
+# エスケープは<C-z>
+#escape ^z^z
+
+#ログを時間とウィンドウごとに記録
+#logfile "/home/h-toru/log/screen-%Y%m%d-%n.log"
+#deflog on

@@ -1,0 +1,163 @@
+" 行表示する
+set number
+
+" swpファイルを生成しない
+set noswapfile
+
+"検索結果をハイライトする
+set hlsearch
+
+"改行の際にインデントに合わせる
+set autoindent
+
+" クリップボードの共有
+set clipboard=unnamed,autoselect
+
+set backspace=start,eol,indent
+
+" エディタウィンドウの末尾から2行目にステータスラインを常時表示させる
+set laststatus=2
+
+let g:gitgutter_max_signs = 1000
+" ステータス行に表示させる情報の指定(どこからかコピペしたので細かい意味はわかっていない)
+set statusline=%<%f\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%=%l,%c%V%8P
+
+" カーソル下の単語をハイライト付きで置換
+nnoremap sub :OverCommandLine<CR>%s/<C-r><C-w>//g<Left><Left>
+" " コピーした文字列をハイライト付きで置換
+nnoremap subp y:OverCommandLine<CR>%s!<C-r>=substitute(@0, '!', '\\!', 'g')<CR>!!gI<Left><Left><Left>
+" "Linuxの場合はviminfoを用いてヤンクデータを共有
+"let OSTYPE = system('uname')
+"if OSTYPE == "Linux\n"
+"  noremap y y:wv<CR>
+"  noremap p :rv!<CR>p
+
+"  set viminfo='50,\"3000,:0,n~/.viminfo
+"endif
+
+filetype indent on
+filetype plugin on
+
+" == プラグイン達
+"タブ、空白、改行の可視化
+set list
+set listchars=tab:>.,trail:_,eol:↲,extends:>,precedes:<,nbsp:%
+
+" === 初めてだから優しくして欲しい人
+" $ mkdir -p ~/.vim/bundle/neobundle.vim
+" $ git clone git://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim
+" $ vim
+" * ↑ここでアラート文が出るかもしれないけど気にしない
+" * ↓vimを立ち上げてnormal状態で以下を実行
+" :NeoBundleInstall
+set runtimepath+=~/.vim/bundle/neobundle.vim/
+call neobundle#begin(expand('~/.vim/bundle/'))
+
+" 色を変える
+NeoBundle ('nanotech/jellybeans.vim')
+NeoBundle ('KKPMW/moonshine-vim')
+
+"更新箇所がリアルタイムで分かる
+"" git {{{
+NeoBundle ('tpope/vim-fugitive')
+NeoBundle ('airblade/vim-gitgutter')
+" }}}
+
+" おなじみ☃  ディレクトリツリーを表示する
+NeoBundle ('scrooloose/nerdtree')
+"NeoBundle ('jistr/vim-nerdtree-tabs')
+ "これが保存状態未保存状態でステータスバーを色分けするプラグインみたいだ
+NeoBundle ('bling/vim-airline') "これが保存状態未保存状態でステータスバーを色分けするプラグインみたいだ
+ "一括置き換え 使い方:OverCommandline   :%s/置き換える文字/置き換え後の文字   みたいな
+NeoBundle ('osyo-manga/vim-over')
+NeoBundle ('osyo-manga/vim-anzu')
+
+"NeoBundle ('tpope/vim-cucumber')
+
+"NeoBundle ('Shougo/unite.vim')
+call neobundle#end()
+" プラグイン達の出番ここまで
+
+
+" unite
+" buffer file list
+noremap fb :Unite buffer<CR>
+" current directory file list <C-h> up directory, <CR> select directory
+noremap fa :Unite file<CR>
+" same directory file list <C-h> up directory, <CR> select directory
+noremap ff :UniteWithBufferDir -buffer-name=files file<CR>
+" recent file list
+noremap fr :Unite file_mru<CR>
+" recent and buffer file list
+noremap fu :Unite buffer file_mru<CR>
+" register(yank) list
+noremap fy :Unite -buffer-name=register register<CR>
+" book-mark list
+noremap fm :Unite bookmark<CR>
+" add book-mark
+noremap ba :UniteBookmarkAdd<CR>
+
+
+" Enable 256 colors FORCELY on screen
+if $TERM == 'screen'
+    set t_Co=256
+endif
+
+
+colorscheme jellybeans
+"colorscheme moonshine
+
+
+" vim-anzuの設定
+nmap N <Plug>(anzu-n-with-echo)
+nmap n <Plug>(anzu-N-with-echo)
+nmap * <Plug>(anzu-star-with-echo)
+nmap # <Plug>(anzu-sharp-with-echo)
+
+" clear status
+nmap <Esc><Esc> <Plug>(anzu-clear-search-status)
+
+" statusline
+set statusline=%{anzu#search_status()}
+
+
+"全角スペースをハイライト表示
+highlight ZenkakuSpace cterm=bold,reverse ctermfg=red guibg=red
+match ZenkakuSpace /　/
+" fuzzyfinder's popup menu's color
+highlight Pmenu ctermfg=Gray ctermbg=DarkGray
+highlight PmenuSel ctermfg=White ctermbg=Gray
+
+function! ZenkakuSpace()
+  highlight ZenkakuSpace cterm=reverse ctermfg=DarkMagenta gui=reverse guifg=DarkMagenta
+endfunction
+
+if has('syntax')
+  augroup ZenkakuSpace
+    autocmd!
+    autocmd ColorScheme       * call ZenkakuSpace()
+    autocmd VimEnter,WinEnter * match ZenkakuSpace /　/
+  augroup END
+  call ZenkakuSpace()
+endif
+
+"ctrl + eでNERDtree表示
+nnoremap <silent><C-e> :NERDTreeToggle<CR>
+nnoremap <silent><C-t> :NERDTreeFocusToggle<CR>
+let g:NERDTreeDirArrows = 1
+let g:NERDTreeDirArrowExpandable = '▸'
+let g:NERDTreeDirArrowCollapsible = '▾'
+" 隠しファイルをデフォルトで表示させる
+let NERDTreeShowHidden = 1
+
+" デフォルトでツリーを表示させる
+"let g:nerdtree_tabs_open_on_console_startup=1
+
+" 他のバッファをすべて閉じた時にNERDTreeが開いていたらNERDTreeも一緒に閉じる。
+" autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+"ウィンドウ間の移動
+nnoremap <C-j> <ESC><C-w>j
+nnoremap <C-k> <ESC><C-w>k
+nnoremap <C-l> <ESC><C-w>l
+nnoremap <C-h> <ESC><C-w>h
