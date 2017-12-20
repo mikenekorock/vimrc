@@ -1,5 +1,5 @@
 " color
-syntax on
+"syntax on
 " disp number on the left (setting <C-n> Toggle)
 set number
 " disp tab and trail
@@ -24,8 +24,6 @@ set shiftwidth=2
 set showtabline=2
 " for ○★etc
 set ambiwidth=single
-" カーソルを行頭、行末で止まらないようにする
-"set whichwrap=b,s,h,l,<,>,[,]
 "ファイル変更中でも他のファイルを開けるようにする
 set hidden
 "ファイル内容が変更されると自動読み込みする
@@ -54,13 +52,13 @@ source /usr/share/vim/vim74/macros/matchit.vim
 nnoremap n nzz
 nnoremap N Nzz
 
-" neobundle
-"set nocompatible
 filetype off
 
 " ↓プラグインをインストールする場合はこんな感じ
 " $ mkdir -p ~/.vim/dein/repos/github.com/Shougo/dein.vim
 " $ git clone https://github.com/Shougo/dein.vim.git ~/.vim/dein/repos/github.com/Shougo/dein.vim
+" $ vim ←vimを開く
+" :call dein#install()
 if &compatible
   set nocompatible
 endif
@@ -68,101 +66,95 @@ set runtimepath^=~/.vim/dein/repos/github.com/Shougo/dein.vim
 " ↓のディレクトリにプラグインのデータが入る
 call dein#begin(expand('~/.vim/dein/'))
 
-" :NeoBundleInstall
-" Let NeoBundle manage NeoBundle
-" Required:
-call dein#add('Shougo/dein.vim')
-
-" My Bundles here:
-
-" unite grep に必要
-call dein#add ('Shougo/vimproc.vim', {
-      \ 'build' : {
-      \     'windows' : 'tools\\update-dll-mingw',
-      \     'cygwin' : 'make -f make_cygwin.mak',
-      \     'mac' : 'make -f make_mac.mak',
-      \     'unix' : 'make -f make_unix.mak',
-      \    },
-      \ })
-
-call dein#add ('Shougo/unite.vim')
-call dein#add ('Shougo/neomru.vim')
-call dein#add ('scrooloose/nerdtree')
-call dein#add ('Xuyuanp/nerdtree-git-plugin')
-call dein#add ('vim-scripts/dbext.vim')
-call dein#add ('thinca/vim-ref')
-call dein#add ('vim-ruby/vim-ruby')
-call dein#add ('sakuraiyuta/commentout.vim')
-call dein#add ('rking/ag.vim')
-call dein#add ('cohama/agit.vim')
-call dein#add ('tpope/vim-rails')
-call dein#add ('tpope/vim-endwise')
-call dein#add ('kchmck/vim-coffee-script')
-call dein#add ('osyo-manga/vim-anzu')
+  " Required:
+  call dein#add('Shougo/dein.vim')
 
 
-" カーソルの場所によって自動でシンタックスが変わる。なくてもいいかな・・
-"call dein#add ('Shougo/context_filetype.vim')
-"call dein#add ('osyo-manga/vim-precious')
+  " unite grep に必要
+  call dein#add ('Shougo/vimproc.vim', {
+        \ 'build' : {
+        \     'windows' : 'tools\\update-dll-mingw',
+        \     'cygwin' : 'make -f make_cygwin.mak',
+        \     'mac' : 'make -f make_mac.mak',
+        \     'unix' : 'make -f make_unix.mak',
+        \    },
+        \ })
 
-" visibility {{{
-" 保存状態未保存状態で下のラインの色が違うようになる。どれがどういう役割なのか不明
-call dein#add ('nathanaelkane/vim-indent-guides')
-"call dein#add 'LeafCage/foldCC'
-call dein#add ('bling/vim-airline') "これが保存状態未保存状態でステータスバーを色分けするプラグインみたいだ
-call dein#add ('osyo-manga/vim-over') "一括置き換え 使い方   :%s/置き換える文字/置き換え後の文字   みたいな
-" }}}
+  call dein#add ('Shougo/unite.vim')
+  call dein#add ('Shougo/neomru.vim')
+  call dein#add ('scrooloose/nerdtree')
+  call dein#add ('Xuyuanp/nerdtree-git-plugin')
+  call dein#add ('vim-scripts/rails.vim')
+  call dein#add ('vim-scripts/dbext.vim')
+  call dein#add ('thinca/vim-ref')
+  call dein#add ('vim-ruby/vim-ruby')
+  call dein#add ('sakuraiyuta/commentout.vim')
+  call dein#add ('rking/ag.vim')
+  call dein#add ('cohama/agit.vim')
+  call dein#add ('tpope/vim-rails')
+  call dein#add ('tpope/vim-endwise')
+  call dein#add ('kchmck/vim-coffee-script')
+  call dein#add ('osyo-manga/vim-anzu')
+  call dein#add ('uupaa/ts.md')
 
 
-"更新箇所がリアルタイムで分かる
-" git {{{
-call dein#add ('tpope/vim-fugitive')
-call dein#add ('airblade/vim-gitgutter')
-" }}}
+  "call dein#add ('Shougo/context_filetype.vim')
+  "call dein#add ('osyo-manga/vim-precious')
+
+  " visibility {{{
+  " 保存状態未保存状態で下のラインの色が違うようになる。どれがどういう役割なのか不明
+  call dein#add ('nathanaelkane/vim-indent-guides')
+  call dein#add ('bling/vim-airline') "保存状態未保存状態でステータスバーを色分けするプラグイン
+  call dein#add ('osyo-manga/vim-over') "一括置き換え 使い方   :%s/置き換える文字/置き換え後の文字   みたいな
+  " }}}
+
+
+  " git {{{
+  " Gblameとかで色々見れる
+  call dein#add ('tpope/vim-fugitive')
+  " 更新箇所がリアルタイムで分かる
+  call dein#add ('airblade/vim-gitgutter')
+  " }}}
 
 
 
-" カラースキーム。:colorschemeなんちゃら〜で変えれる。
-" 使いたい場合はコメントアウト外してインストールしてね。
-" colorschemes plugin {{{
-"call dein#add ('altercatiVon/vim-colors-solarized')
-"call dein#add ('baskerville/bubblegum')
-call dein#add ('nanotech/jellybeans.vim')
-"call dein#add ('w0ng/vim-hybrid')
-"call dein#add ('vim-scripts/twilight')
-"call dein#add ('jonathanfilip/vim-lucius')
-"call dein#add ('jpo/vim-railscasts-theme')
-"call dein#add ('29decibel/codeschool-vim-theme')
-"call dein#add ('lifepillar/vim-solarized8')
-"call dein#add ('altercation/vim-colors-solarized')
-call dein#add ('KKPMW/moonshine-vim')
-" }}}
+  " カラースキーム。:colorschemeなんちゃら〜で変えれる。
+  " 使いたい場合はコメントアウト外してインストールしてね。
+  " colorschemes plugin {{{
+  "call dein#add ('altercatiVon/vim-colors-solarized')
+  "call dein#add ('baskerville/bubblegum')
+  call dein#add ('nanotech/jellybeans.vim')
+  "call dein#add ('w0ng/vim-hybrid')
+  "call dein#add ('vim-scripts/twilight')
+  "call dein#add ('jonathanfilip/vim-lucius')
+  "call dein#add ('jpo/vim-railscasts-theme')
+  "call dein#add ('29decibel/codeschool-vim-theme')
+  "call dein#add ('lifepillar/vim-solarized8')
+  "call dein#add ('altercation/vim-colors-solarized')
+  call dein#add ('KKPMW/moonshine-vim')
+  " }}}
 
+  " other programinng {{{
+  call dein#add ('scrooloose/syntastic')
+  " }}}
 
+  let g:NERDTreeDirArrows = 1
+  let g:NERDTreeDirArrowExpandable = '▸'
+  let g:NERDTreeDirArrowCollapsible = '▾'
+  " 隠しファイルをデフォルトで表示させる
+  let NERDTreeShowHidden = 1
 
-
-" other programinng {{{
-call dein#add ('scrooloose/syntastic')
-" }}}
-
-let g:NERDTreeDirArrows = 1
-let g:NERDTreeDirArrowExpandable = '▸'
-let g:NERDTreeDirArrowCollapsible = '▾'
-" 隠しファイルをデフォルトで表示させる
-let NERDTreeShowHidden = 1
-" デフォルトでツリーを表示させる
-"autocmd VimEnter * execute 'NERDTree'
-
-"新しいプラグインを入れた場合は→:call dein#install()
+  "新しいプラグインを入れた場合は→:call dein#install()
 call dein#end()
-"----ネオバンドルのプラグインここまで----
+"----プラグインここまで----
 
 autocmd BufNewFile,BufRead *.vue set filetype=html
+autocmd BufNewFile,BufRead *.ts set filetype=javascript
 
 syntax enable
 set background=dark
 set t_Co=256
-" 上のカラーリングを適用させる。この条件はよくわからん
+" 上のカラーリングを適用させる
 if stridx($TERM, 'xterm-256color') >= 0
   "colorscheme desert
   "colorscheme railscasts
@@ -211,10 +203,10 @@ let g:unite_enable_start_insert = 1
 
 " NERDTreeのキーバインド。Ctrl + eで閉じたり開いたりできるよ
 nmap <silent> <C-e>      :NERDTreeToggle<CR>
-vmap <silent> <C-e> <Esc>:NERDTreeToggle<CR>
-omap <silent> <C-e>      :NERDTreeToggle<CR>
-imap <silent> <C-e> <Esc>:NERDTreeToggle<CR>
-cmap <silent> <C-e> <C-u>:NERDTreeToggle<CR>
+"vmap <silent> <C-e> <Esc>:NERDTreeToggle<CR>
+"omap <silent> <C-e>      :NERDTreeToggle<CR>
+"imap <silent> <C-e> <Esc>:NERDTreeToggle<CR>
+"cmap <silent> <C-e> <C-u>:NERDTreeToggle<CR>
 "autocmd vimenter * if !argc() | NERDTree | endif
 
 " fugitive
@@ -236,10 +228,6 @@ nmap <C-w>a :vertical res 50
 " Y キーで「カーソルから行末までコピー(Yank)」
 nnoremap Y y$
 
-" nmap <Leader>e :NERDTreeToggle<CR>
-
-"ctrl + eでNERDtree表示
-nnoremap <silent><C-e> :NERDTreeToggle<CR>
 "ウィンドウ間の移動
 nnoremap <C-j> <ESC><C-w>j
 nnoremap <C-k> <ESC><C-w>k
@@ -257,7 +245,6 @@ nnoremap <C-h> <ESC><C-w>h
 "タブウインドウの拡大縮小
 noremap <C-o>  <C-w>>
 noremap <C-i>  <C-w><
-
 
 "全角スペースをハイライト表示
 function! ZenkakuSpace()
@@ -282,8 +269,8 @@ let OSTYPE = system('uname')
 if OSTYPE == "Linux\n"
   noremap y y:wv<CR>
   noremap p :rv!<CR>p
-
 endif
+
 set viminfo='50,\"3000,:0,n~/.viminfo
 " 全角スペースをハイライト
 "MyAutocmd ColorScheme * highlight ZenkakuSpace ctermbg=239 guibg=#405060
@@ -305,4 +292,3 @@ nmap n <Plug>(anzu-n-with-echo)
 nmap N <Plug>(anzu-N-with-echo)
 nmap * <Plug>(anzu-star-with-echo)
 nmap # <Plug>(anzu-sharp-with-echo)
-augroup END
