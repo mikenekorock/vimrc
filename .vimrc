@@ -9,7 +9,6 @@ set fileencodings=utf-8,ucs-bom,iso-2022-jp-3,iso-2022-jp,eucjp-ms,euc-jisx0213,
 set list
 set listchars=tab:».,trail:_,eol:↲,extends:>,precedes:<,nbsp:%
 
-set tags=~/.tags
 " disp zenkakuspace
 highlight ZenkakuSpace cterm=bold,reverse ctermfg=red guibg=red
 match ZenkakuSpace /　/
@@ -30,6 +29,8 @@ set hidden
 set autoread
 "検索結果をハイライトする
 set hlsearch
+" 1文字検索ごとに検索を行う
+set incsearch
 " クリップボードの共有
 set clipboard=unnamed,autoselect
 " set paste on/off
@@ -38,8 +39,6 @@ set clipboard=unnamed,autoselect
 set backspace=start,eol,indent
 " エディタウィンドウの末尾から2行目にステータスラインを常時表示させる
 set laststatus=2
-" ステータス行に表示させる情報の指定(どこからかコピペしたので細かい意味はわかっていない)
-set statusline=%<%f\ %m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%=%l,%c%V%8P
 
 "swpファイルを作成しない
 set noswapfile
@@ -47,13 +46,14 @@ set noswapfile
 " ESCキー2回で検索結果ハイライトを消す
 nmap <Esc><Esc> :nohlsearch<CR><Esc>
 " % move do <-> end
-source /usr/share/vim/vim74/macros/matchit.vim
+source $VIMRUNTIME/macros/matchit.vim
 " n, N キーで「次の（前の）検索候補」を画面の中心に表示する
 nnoremap n nzz
 nnoremap N Nzz
 
 filetype off
 
+let g:dein#auto_recache = 1
 " ↓プラグインをインストールする場合はこんな感じ
 " $ mkdir -p ~/.vim/dein/repos/github.com/Shougo/dein.vim
 " $ git clone https://github.com/Shougo/dein.vim.git ~/.vim/dein/repos/github.com/Shougo/dein.vim
@@ -62,11 +62,12 @@ filetype off
 if &compatible
   set nocompatible
 endif
-set runtimepath^=~/.vim/dein/repos/github.com/Shougo/dein.vim
+set runtimepath^=~/.cache/dein/repos/github.com/Shougo/dein.vim
+if dein#load_state('~/.cache/dein')
 " ↓のディレクトリにプラグインのデータが入る
-call dein#begin(expand('~/.vim/dein/'))
+  call dein#begin('~/.cache/dein/')
 
-  " Required:
+ " Required:
   call dein#add('Shougo/dein.vim')
 
 
@@ -81,22 +82,27 @@ call dein#begin(expand('~/.vim/dein/'))
         \ })
 
   call dein#add ('Shougo/unite.vim')
+  ":Unite -auto-preview colorschemeでカラースキームのリアルプレビュー、しゅごい・・・
+  call dein#add ('ujihisa/unite-colorscheme')
   call dein#add ('Shougo/neomru.vim')
   call dein#add ('scrooloose/nerdtree')
   call dein#add ('Xuyuanp/nerdtree-git-plugin')
-  call dein#add ('vim-scripts/rails.vim')
-  call dein#add ('vim-scripts/dbext.vim')
-  call dein#add ('thinca/vim-ref')
-  call dein#add ('vim-ruby/vim-ruby')
-  call dein#add ('sakuraiyuta/commentout.vim')
+  call dein#add ('posva/vim-vue')
+  "call dein#add ('vim-scripts/rails.vim')
+  "call dein#add ('vim-scripts/dbext.vim')
+  "call dein#add ('thinca/vim-ref')
+  "call dein#add ('vim-ruby/vim-ruby')
+  "call dein#add ('sakuraiyuta/commentout.vim')
   call dein#add ('rking/ag.vim')
   call dein#add ('cohama/agit.vim')
-  call dein#add ('tpope/vim-rails')
-  call dein#add ('tpope/vim-endwise')
-  call dein#add ('kchmck/vim-coffee-script')
+  "call dein#add ('tpope/vim-rails')
+  "call dein#add ('tpope/vim-endwise')
+  "call dein#add ('kchmck/vim-coffee-script')
   call dein#add ('osyo-manga/vim-anzu')
-  call dein#add ('uupaa/ts.md')
+  "call dein#add ('uupaa/ts.md')
 
+  "call dein#add ('Shougo/neosnippet.vim')
+  "call dein#add ('Shougo/neocomplcache')
 
   "call dein#add ('Shougo/context_filetype.vim')
   "call dein#add ('osyo-manga/vim-precious')
@@ -105,7 +111,7 @@ call dein#begin(expand('~/.vim/dein/'))
   " 保存状態未保存状態で下のラインの色が違うようになる。どれがどういう役割なのか不明
   call dein#add ('nathanaelkane/vim-indent-guides')
   call dein#add ('bling/vim-airline') "保存状態未保存状態でステータスバーを色分けするプラグイン
-  call dein#add ('osyo-manga/vim-over') "一括置き換え 使い方   :%s/置き換える文字/置き換え後の文字   みたいな
+ " call dein#add ('osyo-manga/vim-over') "一括置き換え 使い方   :%s/置き換える文字/置き換え後の文字   みたいな
   " }}}
 
 
@@ -121,58 +127,69 @@ call dein#begin(expand('~/.vim/dein/'))
   " カラースキーム。:colorschemeなんちゃら〜で変えれる。
   " 使いたい場合はコメントアウト外してインストールしてね。
   " colorschemes plugin {{{
-  "call dein#add ('altercatiVon/vim-colors-solarized')
   "call dein#add ('baskerville/bubblegum')
   call dein#add ('nanotech/jellybeans.vim')
+  call dein#add ('sjl/badwolf')
+  call dein#add ('nightsense/stellarized')
+  "call dein#add ('vim-scripts/newspaper.vim')
   "call dein#add ('w0ng/vim-hybrid')
   "call dein#add ('vim-scripts/twilight')
   "call dein#add ('jonathanfilip/vim-lucius')
-  "call dein#add ('jpo/vim-railscasts-theme')
+  call dein#add ('jpo/vim-railscasts-theme')
   "call dein#add ('29decibel/codeschool-vim-theme')
-  "call dein#add ('lifepillar/vim-solarized8')
+  call dein#add ('lifepillar/vim-solarized8')
   "call dein#add ('altercation/vim-colors-solarized')
   call dein#add ('KKPMW/moonshine-vim')
+  call dein#add ('KKPMW/sacredforest-vim')
+  call dein#add ('machakann/vim-colorscheme-tatami')
   " }}}
 
   " other programinng {{{
-  call dein#add ('scrooloose/syntastic')
+  "call dein#add ('scrooloose/syntastic') " シンタックスエラーチェック。スコープがおかしいと教えてくれたりする
   " }}}
+
+
+  "新しいプラグインを入れた場合は→:call dein#install()
+  call dein#end()
+  call dein#save_state()
+endif
+"----プラグインここまで----
+
+" プラグインを削除するとキャッシュを更新しないと反映されない
+"call map(dein#check_clean(), "delete(v:val, 'rf')")
+"call dein#recache_runtimepath()
+autocmd BufNewFile,BufRead *.vue set filetype=html
+autocmd BufNewFile,BufRead *.ts set filetype=javascript
+autocmd BufNewFile,BufRead *.eco set filetype=html
 
   let g:NERDTreeDirArrows = 1
   let g:NERDTreeDirArrowExpandable = '▸'
   let g:NERDTreeDirArrowCollapsible = '▾'
   " 隠しファイルをデフォルトで表示させる
   let NERDTreeShowHidden = 1
-
-  "新しいプラグインを入れた場合は→:call dein#install()
-call dein#end()
-"----プラグインここまで----
-
-autocmd BufNewFile,BufRead *.vue set filetype=html
-autocmd BufNewFile,BufRead *.ts set filetype=javascript
-
 syntax enable
-set background=dark
-set t_Co=256
-" 上のカラーリングを適用させる
+set background=light
+"set t_Co=256
+" カラーリングを適用させる
+"let g:solarized_use16 = 1
 if stridx($TERM, 'xterm-256color') >= 0
   "colorscheme desert
   "colorscheme railscasts
   "colorscheme codeschool
   "colorscheme lucius
-  "colorscheme solarized8_dark
   "colorscheme bubblegum
   "colorscheme jellybeans
-  "colorscheme solarized
-  colorscheme moonshine
+  "colorscheme badwolf
+ " colorscheme moonshine_lowcontrast
+ " colorscheme stellarized
+  "colorscheme tatami
   "let g:solarized_termcolors=256
+  colorscheme solarized8
   "colorscheme hybrid
   "colorscheme twilight
 else
   "colorscheme hybrid
 endif
-
-
 
 filetype plugin on
 filetype indent on
@@ -191,7 +208,7 @@ noremap fu :Unite buffer file_mru<CR>
 " register(yank) list
 noremap fy :Unite -buffer-name=register register<CR>
 " book-mark list
-noremap fm :Unite bookmark<CR>
+noremap fm :Unite bookmark:*<CR>
 " add book-mark
 noremap ba :UniteBookmarkAdd<CR>
 
@@ -233,12 +250,6 @@ nnoremap <C-j> <ESC><C-w>j
 nnoremap <C-k> <ESC><C-w>k
 nnoremap <C-l> <ESC><C-w>l
 nnoremap <C-h> <ESC><C-w>h
-
-
-"http://qiita.com/mizukmb/items/ddb5a5bfa2ce223057cb ← ここをぱくった
-"Shift + h で左端、 Shift + lで右端にカーソル移動。いちいち $ とか ^ を押す必要がない。 めっちゃ便利。
-"noremap <S-h>   ^
-"noremap <S-j>   }
 "noremap <S-k>   {
 "noremap <S-l>   $
 
@@ -265,13 +276,13 @@ nnoremap sub :OverCommandLine<CR>%s/<C-r><C-w>//g<Left><Left>
 " コピーした文字列をハイライト付きで置換
 nnoremap subp y:OverCommandLine<CR>%s!<C-r>=substitute(@0, '!', '\\!', 'g')<CR>!!gI<Left><Left><Left>
 "Linuxの場合はviminfoを用いてヤンクデータを共有
-let OSTYPE = system('uname')
-if OSTYPE == "Linux\n"
-  noremap y y:wv<CR>
-  noremap p :rv!<CR>p
-endif
+"let OSTYPE = system('uname')
+"if OSTYPE == "Linux\n"
+"  noremap y y:wv<CR>
+"  noremap p :rv!<CR>p
+"endif
 
-set viminfo='50,\"3000,:0,n~/.viminfo
+"set viminfo='50,\"3000,:0,n~/.viminfo
 " 全角スペースをハイライト
 "MyAutocmd ColorScheme * highlight ZenkakuSpace ctermbg=239 guibg=#405060
 "MyAutocmd VimEnter,WinEnter * call matchadd('ZenkakuSpace', '　')
