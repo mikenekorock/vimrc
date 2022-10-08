@@ -166,7 +166,6 @@ Plugin ('airblade/vim-gitgutter')
 "Plugin ('baskerville/bubblegum')
 Plugin ('nanotech/jellybeans.vim')
 Plugin ('sjl/badwolf')
-Plugin ('nightsense/stellarized')
 "Plugin ('vim-scripts/newspaper.vim')
 "Plugin ('w0ng/vim-hybrid')
 "Plugin ('vim-scripts/twilight')
@@ -213,7 +212,6 @@ if stridx($TERM, 'xterm-256color') >= 0
   colorscheme jellybeans
   "colorscheme badwolf
  " colorscheme moonshine_lowcontrast
- " colorscheme stellarized
   "colorscheme tatami
   "let g:solarized_termcolors=256
  " colorscheme solarized8
