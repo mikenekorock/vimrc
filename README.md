@@ -13,3 +13,13 @@ $ vim
 
 ## .screenrc
 なんとなく作った。
+
+## シンボリックリンクを作って共有する
+```bash
+# 前提：/Users/{ユーザー名}/work_space/ にgit cloneしている
+# vimに反映させたい
+$ ln -s /Users/{ユーザー名}/work_space/vimrc/.vimrc .vimrc
+
+# neovimに反映させたい
+$ ln -s /Users/{ユーザー名}/work_space/vimrc/.vimrc .config/nvim/init.vim
+```
