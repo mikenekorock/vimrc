@@ -8,6 +8,10 @@ set fileencodings=utf-8,ucs-bom,iso-2022-jp-3,iso-2022-jp,eucjp-ms,euc-jisx0213,
 set list
 set listchars=tab:».,trail:_,eol:↲,extends:>,precedes:<,nbsp:%
 
+" マウス選択でvisualにしない
+" neovim用
+set mouse=
+
 " disp zenkakuspace
 highlight ZenkakuSpace cterm=bold,reverse ctermfg=red guibg=red
 match ZenkakuSpace /　/
@@ -31,7 +35,7 @@ set hlsearch
 " 1文字検索ごとに検索を行う
 set incsearch
 " クリップボードの共有
-set clipboard=unnamed,autoselect
+set clipboard=unnamed ",autoselect
 " set paste on/off
 "set pastetoggle=<C-P>
 " delete key effect on insrt mode
@@ -177,6 +181,8 @@ Plugin ('lifepillar/vim-solarized8')
 Plugin ('KKPMW/moonshine-vim')
 "Plugin ('KKPMW/sacredforest-vim')
 Plugin ('machakann/vim-colorscheme-tatami')
+Plugin ('gmarik/Vundle.vim')
+Plugin ('slim-template/vim-slim.git')
 " }}}
 
 " other programinng {{{
