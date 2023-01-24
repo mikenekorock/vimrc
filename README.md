@@ -20,3 +20,6 @@ $ ln -s /Users/{ユーザー名}/work_space/vimrc/.vimrc .vimrc
 # neovimに反映させたい
 $ ln -s /Users/{ユーザー名}/work_space/vimrc/.vimrc .config/nvim/init.vim
 ```
+
+## zshrc
+history補完とか2行表示とか
