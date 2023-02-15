@@ -58,6 +58,8 @@ colorlist() {
     fi
   done
 }
+# cd などでの選択時、カーソルで移動できたり色付きになったり
+autoload -U compinit && compinit
 # Tabで選択できるように
 zstyle ':completion:*:default' menu select=2
 # 補完で大文字にもマッチ

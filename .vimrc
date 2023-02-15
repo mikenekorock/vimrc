@@ -198,6 +198,7 @@ filetype plugin indent on
 "autocmd BufNewFile,BufRead *.vue set filetype=html
 autocmd BufNewFile,BufRead *.ts set filetype=javascript
 autocmd BufNewFile,BufRead *.eco set filetype=html
+autocmd BufNewFile,BufRead *.jb set filetype=ruby
 
 let g:NERDTreeDirArrows = 1
 let g:NERDTreeDirArrowExpandable = '▸'
@@ -266,9 +267,10 @@ nnoremap <C-h> <ESC><C-w>h
 "noremap <S-k>   {
 "noremap <S-l>   $
 
+nnoremap <C-s> <C-o>:w<Enter>
 "タブウインドウの拡大縮小
-nnoremap <C-o>  <C-w>>
-nnoremap <C-i>  <C-w><
+"nnoremap <C-o>  <C-w>>
+"nnoremap <C-i>  <C-w><
 
 "全角スペースをハイライト表示
 function! ZenkakuSpace()
