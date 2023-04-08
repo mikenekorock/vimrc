@@ -184,7 +184,7 @@ Plugin ('machakann/vim-colorscheme-tatami')
 Plugin ('gmarik/Vundle.vim')
 Plugin ('slim-template/vim-slim.git')
 " }}}
-
+Plugin ('vim-jp/vimdoc-ja')
 " other programinng {{{
 "Plugin ('scrooloose/syntastic') " シンタックスエラーチェック。スコープがおかしいと教えてくれたりする
 " }}}
@@ -267,7 +267,7 @@ nnoremap <C-h> <ESC><C-w>h
 "noremap <S-k>   {
 "noremap <S-l>   $
 
-nnoremap <C-s> <C-o>:w<Enter>
+nnoremap <C-s> <C-o>:write<Enter>
 "タブウインドウの拡大縮小
 "nnoremap <C-o>  <C-w>>
 "nnoremap <C-i>  <C-w><
