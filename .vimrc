@@ -72,56 +72,14 @@ if &compatible
 endif
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
-Plugin ('Shougo/denite.nvim')
-if !has('nvim')
-  Plugin ('roxma/nvim-yarp')
-  Plugin ('roxma/vim-hug-neovim-rpc')
-endif
-
-" Define mappings
-autocmd FileType denite call s:denite_my_settings()
-function! s:denite_my_settings() abort
-  nnoremap <silent><buffer><expr> <CR>
-  \ denite#do_map('do_action')
-  nnoremap <silent><buffer><expr> d
-  \ denite#do_map('do_action', 'delete')
-  nnoremap <silent><buffer><expr> p
-  \ denite#do_map('do_action', 'preview')
-  nnoremap <silent><buffer><expr> q
-  \ denite#do_map('quit')
-  nnoremap <silent><buffer><expr> i
-  \ denite#do_map('open_filter_buffer')
-  nnoremap <silent><buffer><expr> <Space>
-  \ denite#do_map('toggle_select').'j'
-endfunction
-
-" unite
-" buffer file list
-nnoremap fb :Denite buffer<CR>
-" current directory file list <C-h> up directory, <CR> select directory
-nnoremap fa :Denite file/rec<CR>
-" same directory file list <C-h> up directory, <CR> select directory
-nnoremap ff :UniteWithBufferDir -buffer-name=files file<CR>
-" recent file list
-nnoremap fr :Unite file_mru<CR>
-" recent and buffer file list
-nnoremap fu :Unite buffer file_mru<CR>
-" register(yank) list
-nnoremap fy :Unite -buffer-name=register register<CR>
-" book-mark list
-nnoremap fm :Unite bookmark:*<CR>
-" add book-mark
-nnoremap ba :UniteBookmarkAdd<CR>
-nnoremap fg :Denite grep<CR>
-let g:denite_enable_start_insert = 1
-
-Plugin ('kmnk/denite-dirmark')
-nmap <Leader>dd    <SID>(dirmark)
-nmap <Leader>da    <SID>(dirmark-add)
-
-nnoremap <silent> <SID>(dirmark) :<C-u>Denite -default-action=cd dirmark<CR>
-nnoremap <silent><expr> <SID>(dirmark-add) ':<C-u>Denite dirmark/add::"' . expand('%:p:h') .  '"<CR>'
-
+Plugin ('vim-denops/denops.vim')
+Plugin ('vim-denops/denops-helloworld.vim')
+"Plugin ('Shougo/ddu.vim')
+"Plugin ('Shougo/ddu-ui-ff')
+"Plugin ('Shougo/ddu-ui-filer')
+"Plugin ('shun/ddu-source-rg')
+"Plugin ('Shougo/ddu-kind-file')
+"Plugin ('Shougo/ddu-filter-matcher_substring')
 Plugin ('Shougo/neomru.vim')
 Plugin ('mattn/emmet-vim')
 Plugin ('scrooloose/nerdtree')
@@ -139,8 +97,6 @@ Plugin ('cohama/agit.vim')
 "Plugin ('kchmck/vim-coffee-script')
 Plugin ('osyo-manga/vim-anzu')
 "Plugin ('uupaa/ts.md')
-Plugin ('digitaltoad/vim-pug')
-"
 "Plugin ('Shougo/neosnippet.vim')
 "Plugin ('Shougo/neocomplcache')
 "
@@ -182,7 +138,7 @@ Plugin ('KKPMW/moonshine-vim')
 "Plugin ('KKPMW/sacredforest-vim')
 Plugin ('machakann/vim-colorscheme-tatami')
 Plugin ('gmarik/Vundle.vim')
-Plugin ('slim-template/vim-slim.git')
+Plugin ('slim-template/vim-slim')
 " }}}
 Plugin ('vim-jp/vimdoc-ja')
 " other programinng {{{
@@ -254,8 +210,6 @@ autocmd FileType * setlocal formatoptions-=ro
 nnoremap <unique> <C-o> o<Esc><Down>
 " shortcut key
 nmap <C-n> :set invnumber<CR>
-"nmap <C-h> :hide<CR>
-nmap <C-w>a :vertical res 50
 " Y キーで「カーソルから行末までコピー(Yank)」
 nnoremap Y y$
 
@@ -264,13 +218,11 @@ nnoremap <C-j> <ESC><C-w>j
 nnoremap <C-k> <ESC><C-w>k
 nnoremap <C-l> <ESC><C-w>l
 nnoremap <C-h> <ESC><C-w>h
-"noremap <S-k>   {
-"noremap <S-l>   $
 
-nnoremap <C-s> <C-o>:write<Enter>
-"タブウインドウの拡大縮小
-"nnoremap <C-o>  <C-w>>
-"nnoremap <C-i>  <C-w><
+" Ctrl + sで保存（insert時）
+inoremap <C-s> <C-o>:w<Enter>
+" Ctrl + sで保存（normal時）
+nnoremap <C-s> :w<Enter>
 
 "全角スペースをハイライト表示
 function! ZenkakuSpace()
