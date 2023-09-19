@@ -7,7 +7,6 @@ set fileencodings=utf-8,ucs-bom,iso-2022-jp-3,iso-2022-jp,eucjp-ms,euc-jisx0213,
 "タブ、空白、改行の可視化
 set list
 set listchars=tab:».,trail:_,eol:↲,extends:>,precedes:<,nbsp:%
-
 " マウス選択でvisualにしない
 " neovim用
 set mouse=
@@ -62,6 +61,7 @@ let g:netrw_altv = 1
 " 分割で開いたときに85%のサイズで開く
 let g:netrw_winsize = 85
 
+let mapleader = " "
 " ↓プラグインをインストールする場合はこんな感じ
 " $ mkdir -p ~/.vim/bundle
 " $ git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
@@ -72,10 +72,25 @@ if &compatible
 endif
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
+" brew install denoとかでdenoをインストールする
 Plugin ('vim-denops/denops.vim')
 Plugin ('vim-denops/denops-helloworld.vim')
-"Plugin ('Shougo/ddu.vim')
-"Plugin ('Shougo/ddu-ui-ff')
+Plugin ('Shougo/ddu.vim')
+Plugin ('Shougo/ddu-ui-ff')
+Plugin ('Shougo/ddu-source-file_rec')
+Plugin ('Shougo/ddu-kind-file')
+Plugin ('Shougo/ddu-filter-matcher_substring')
+
+" brew install ripgrep とか必要
+" :checkhealth telescope で必要ライブラリを確認
+Plugin ('nvim-lua/plenary.nvim')
+Plugin ('nvim-telescope/telescope.nvim'), { 'tag': '0.1.3' }
+" Find files using Telescope command-line sugar.
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap ff :Telescope find_files<CR>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 "Plugin ('Shougo/ddu-ui-filer')
 "Plugin ('shun/ddu-source-rg')
 "Plugin ('Shougo/ddu-kind-file')
