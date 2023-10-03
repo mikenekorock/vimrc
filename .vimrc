@@ -86,10 +86,9 @@ Plugin ('Shougo/ddu-filter-matcher_substring')
 Plugin ('nvim-lua/plenary.nvim')
 Plugin ('nvim-telescope/telescope.nvim'), { 'tag': '0.1.3' }
 " Find files using Telescope command-line sugar.
-nnoremap <leader>ff <cmd>Telescope find_files<cr>
 nnoremap ff :Telescope find_files<CR>
-nnoremap <leader>fg <cmd>Telescope live_grep<cr>
-nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap fg :Telescope live_grep<cr>
+nnoremap fb :Telescope buffers<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 "Plugin ('Shougo/ddu-ui-filer')
 "Plugin ('shun/ddu-source-rg')
